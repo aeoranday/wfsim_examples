@@ -83,17 +83,29 @@ for i, t in enumerate(good_truth):
 
 peaks = peaks[good_pk_mask]
 
+
+if len(peaks['time']) != len(good_truth['time']):
+    # Making sure that the syncs are proper. Issue mainly shows up for single electron instructions
+    true_time = good_truth['time']
+    sim_time = peaks['time']
+    bad_indices = []
+    diff_tol = 1000 # The time difference shouldn't be large. Definitely not larger than this
+    max_diff = diff_tol+1
+    while max_diff > diff_tol:
+        max_diff = 0:
+            for idx, st in enumerate(sim_time):
+                diff = abs(st - true_time[idx])
+                if diff > diff_tol:
+                    bad_indices.append(idx)
+                    true_time = np.delete(true_time, idx)
+                    break
+
 hit_pattern_top = peaks['area_per_channel'][:,:253]
 event_pos = np.vstack( (good_truth['x'], good_truth['y']) ).T
-#events = np.zeros(len(event_pos),
-#                  dtype=[('area_per_channel', np.float32, hit_pattern_top.shape[1]),
-#                         ('true_pos', np.float32, 2)])
+events = np.zeros(len(event_pos),
+                  dtype=[('area_per_channel', np.float32, hit_pattern_top.shape[1]),
+                         ('true_pos', np.float32, 2)])
 
-events = {}
-events['area_per_channel'] = hit_pattern_top
-events['true_pos'] = event_pos
-events['true_time'] = good_truth['time']
-events['sim_time'] = peaks['time']
 
 with open('./pickles/{}-50000_single-el_z-10_sim_{}.pkl'.format(run_id, DETECTOR), 'wb') as fn:
     pk.dump(events, fn)

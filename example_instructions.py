@@ -1,7 +1,7 @@
 ### Contain a set of example instructions that can be used to
 ### replace the rand_instructions in wfsim.
 
-import wfsim.instruction_dtype
+import wfsim
 import numpy as np
 
 def single_electron_instructions(c):
