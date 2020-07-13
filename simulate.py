@@ -106,6 +106,8 @@ events = np.zeros(len(event_pos),
                   dtype=[('area_per_channel', np.float32, hit_pattern_top.shape[1]),
                          ('true_pos', np.float32, 2)])
 
+events['area_per_channel'] = hit_pattern_top
+events['true_pos'] = event_pos
 
 with open('./pickles/{}-50000_single-el_z-10_sim_{}.pkl'.format(run_id, DETECTOR), 'wb') as fn:
     pk.dump(events, fn)
