@@ -92,13 +92,13 @@ if len(peaks['time']) != len(good_truth['time']):
     diff_tol = 1000 # The time difference shouldn't be large. Definitely not larger than this
     max_diff = diff_tol+1
     while max_diff > diff_tol:
-        max_diff = 0:
-            for idx, st in enumerate(sim_time):
-                diff = abs(st - true_time[idx])
-                if diff > diff_tol:
-                    bad_indices.append(idx)
-                    true_time = np.delete(true_time, idx)
-                    break
+        max_diff = 0
+        for idx, st in enumerate(sim_time):
+            diff = abs(st - true_time[idx])
+            if diff > diff_tol:
+                bad_indices.append(idx)
+                true_time = np.delete(true_time, idx)
+                break
 
 hit_pattern_top = peaks['area_per_channel'][:,:253]
 event_pos = np.vstack( (good_truth['x'], good_truth['y']) ).T
